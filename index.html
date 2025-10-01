@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Lista de Tareas</title>
+  <!-- DataTables CSS -->
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body>
+  
+  <h2>Lista de Tareas</h2>
+  
+  <button id="addTask">➕ Agregar Tarea</button>
+  <table id="taskTable" class="display" style="width:100%">
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Detalles</th>
+        <th>Fecha Fin</th>
+        <th>Completada</th>
+        <th>Acción</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!--Cuerpo de la Data Table-->
+    </tbody>
+  </table>
+  
+  <!-- jQuery & DataTables -->
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+  <script src="JS/tabla.js"></script>
+</body>
+
+</html>
