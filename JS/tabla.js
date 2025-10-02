@@ -22,8 +22,9 @@ async function apiPost(path, payload){
   return res.json();
 }
 
+// carga tareas desde el servidor
 async function loadTasksFromServer() {
-  const tasks = await apiGet('api/get_tasks.php');
+  const tasks = await apiGet('./api/get_tasks.php');
   return tasks.map(t => ({
     id: t.id,
     nombre: t.nombre,
@@ -85,8 +86,7 @@ $(document).ready(async function () {
       fecha: new Date().toISOString().split("T")[0],
       completada: false
     };
-    const res = await apiPost('api/add_task.php', newTask);
-    // `res` contiene el objeto creado con `id`
+    const res = await apiPost('./api/add_task.php', newTask);
     table.row.add(res).draw(false);
   });
 
@@ -98,10 +98,7 @@ $(document).ready(async function () {
     const data = row.data() || {};
 
     const id = input.attr('data-id') || data.id;
-    if (!id) {
-      // sin id (no guardado) — puede ocurrir raro; mejor recargar
-      return;
-    }
+    if (!id) return;
 
     if (input.hasClass("nombre")) {
       data.nombre = input.val();
@@ -115,18 +112,22 @@ $(document).ready(async function () {
       if (data.completada) $(row.node()).removeClass("overdue");
     }
 
-    // actualizar tabla localmente
     row.data(data).invalidate().draw(false);
 
-    // enviar actualización al servidor
-    await apiPost('api/update_task.php', { id: id, nombre: data.nombre, detalles: data.detalles, fecha: data.fecha, completada: data.completada ? 1 : 0 });
+    await apiPost('./api/update_task.php', { 
+      id: id, 
+      nombre: data.nombre, 
+      detalles: data.detalles, 
+      fecha: data.fecha, 
+      completada: data.completada ? 1 : 0 
+    });
   });
 
   // Eliminar tarea -> delete_task.php
   $('#taskTable tbody').on("click", ".delete-btn", async function () {
     const id = $(this).attr('data-id');
     if (id) {
-      await apiPost('api/delete_task.php', { id: id });
+      await apiPost('./api/delete_task.php', { id: id });
     }
     table.row($(this).parents('tr')).remove().draw(false);
   });
