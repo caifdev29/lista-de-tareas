@@ -2,37 +2,62 @@
 <html lang="es">
 
 <head>
-  <meta charset="UTF-8">
-  <title>Lista de Tareas</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Lista de Tareas — Modern</title>
+
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
   <!-- DataTables CSS -->
   <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
 
-  <link rel="stylesheet" href="css/styles.css">
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="css/styles.css" />
 </head>
 
 <body>
-  
-  <h2>Lista de Tareas</h2>
-  
-  <button id="addTask">➕ Agregar Tarea</button>
-  <table id="taskTable" class="display" style="width:100%">
-    <thead>
-      <tr>
-        <th>Nombre</th>
-        <th>Detalles</th>
-        <th>Fecha Fin</th>
-        <th>Completada</th>
-        <th>Acción</th>
-      </tr>
-    </thead>
-    <tbody>
-      <!--Cuerpo de la Data Table-->
-    </tbody>
-  </table>
-  
+  <main class="wrap">
+    <header class="header-card">
+      <div class="brand">
+        <h1>Lista de Tareas</h1>
+        <p class="subtitle">Organiza tus tareas rápidamente</p>
+      </div>
+      <button id="addTask" class="btn-primary">➕ Agregar</button>
+    </header>
+
+    <section class="table-card">
+      <table id="taskTable" class="display" style="width:100%">
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Detalles</th>
+            <th>Fecha Fin</th>
+            <th>Completada</th>
+            <th>Acción</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Cuerpo de la Data Table -->
+        </tbody>
+      </table>
+    </section>
+
+    <footer class="footer-note">
+      <small>Juan Jesus Gonzalez Velazquez -</small>
+      <small>Francisco Osiel Escobar Montero -</small>
+      <small>Jorge Antonio Espinoza Cervantes-</small>
+      <small>Cesar Andre Isidoro Flores </small>
+
+
+    </footer>
+  </main>
+
   <!-- jQuery & DataTables -->
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
   <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+
+  <!-- Custom JS -->
   <script src="JS/tabla.js"></script>
 </body>
 
