@@ -38,9 +38,11 @@ El proyecto `mi-tareas` tiene la siguiente organización:
 mi-tareas/                  # Carpeta raíz del proyecto
 │
 ├─ index.html               # Página principal del proyecto
-├─ style.css                # Estilos generales
-├─ script.js                # Lógica de frontend (JS)
-├─ api/                     # Carpeta con el backend (PHP)
+├─ css/                
+│   └─ style.css            # Estilos generales
+├─ js/               
+│   └─ script.js            # Lógica de frontend (JS)
+├─ api/                     
 │   ├─ db.php               # Conexión a la base de datos
 │   ├─ get_tasks.php        # Obtener todas las tareas
 │   ├─ add_task.php         # Agregar nueva tarea
