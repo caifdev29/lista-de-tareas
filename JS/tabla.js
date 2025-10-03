@@ -1,22 +1,22 @@
 let table;
 
 // pequeña función para escapar texto en inputs (evita romper HTML)
-function escapeHtml(text){
+function escapeHtml(text) {
   if (typeof text !== 'string') return text;
   return text.replace(/[&<>"'`=\/]/g, function (s) {
-    return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;','/':'&#x2F;','`':'&#x60;','=':'&#x3D;'})[s];
+    return ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;', '/': '&#x2F;', '`': '&#x60;', '=': '&#x3D;' })[s];
   });
 }
 
 // fetch wrappers
-async function apiGet(path){
+async function apiGet(path) {
   const res = await fetch(path);
   return res.json();
 }
-async function apiPost(path, payload){
+async function apiPost(path, payload) {
   const res = await fetch(path, {
     method: 'POST',
-    headers: {'Content-Type':'application/json'},
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(payload)
   });
   return res.json();
@@ -39,43 +39,64 @@ $(document).ready(async function () {
 
   table = $('#taskTable').DataTable({
     data: initialData,
+    language: {
+      url: '//cdn.datatables.net/plug-ins/2.3.4/i18n/es-ES.json',
+    },
     columns: [
       {
         data: "nombre",
+        orderable: true,
         render: function (data, type, row) {
           const cls = row.completada ? 'completed' : '';
-          return `<input type="text" data-id="${row.id||''}" class="edit nombre ${cls}" value="${escapeHtml(data)}">`;
+          if (type === 'display') {
+            return `<input type="text" data-id="${row.id || ''}" class="edit nombre ${cls}" value="${escapeHtml(data)}">`;
+          }
+          return data;
         }
       },
       {
         data: "detalles",
+        orderable: false,
         render: function (data, type, row) {
-          return `<input type="text" data-id="${row.id||''}" class="edit detalles" value="${escapeHtml(data)}">`;
+          return `<input type="text" data-id="${row.id || ''}" class="edit detalles" value="${escapeHtml(data)}">`;
         }
       },
       {
         data: "fecha",
+        orderable: true,
+        type: "num",
         render: function (data, type, row) {
-          return `<input type="date" data-id="${row.id||''}" class="edit fecha" value="${data}">`;
+          if (type === 'display') {
+            return `<input type="date" data-id="${row.id || ''}" class="edit fecha" value="${data}">`;
+          }
+          // devolver timestamp para ordenar/filtrar
+          if (type === 'sort' || type === 'filter') {
+            return data ? new Date(data).getTime() : 0;
+          }
+          return data;
         }
       },
       {
         data: "completada",
+        orderable: true,
         render: function (data, type, row) {
-          return `<input type="checkbox" data-id="${row.id||''}" class="edit completada" ${data ? "checked" : ""}>`;
+          if (type === 'display') {
+            return `<input type="checkbox" data-id="${row.id || ''}" class="edit completada" ${data ? "checked" : ""}>`;
+          }
+          return data;
         }
       },
       {
         data: null,
+        orderable: false,
         render: function (data, type, row) {
-          return `<span data-id="${row.id||''}" class="delete-btn">🗑️</span>`;
+          return `<span data-id="${row.id || ''}" class="delete-btn">🗑️</span>`;
         }
       }
     ],
-    order: [[2, 'asc']],
     paging: false,
     info: false,
-    searching: false
+    searching: true
   });
 
   // Agregar nueva tarea -> llama API add_task.php
@@ -114,12 +135,12 @@ $(document).ready(async function () {
 
     row.data(data).invalidate().draw(false);
 
-    await apiPost('./api/update_task.php', { 
-      id: id, 
-      nombre: data.nombre, 
-      detalles: data.detalles, 
-      fecha: data.fecha, 
-      completada: data.completada ? 1 : 0 
+    await apiPost('./api/update_task.php', {
+      id: id,
+      nombre: data.nombre,
+      detalles: data.detalles,
+      fecha: data.fecha,
+      completada: data.completada ? 1 : 0
     });
   });
 
